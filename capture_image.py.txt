@@ -1,0 +1,37 @@
+import cv2
+
+# Using webcam index 0 (default laptop camera)
+cam = cv2.VideoCapture(0)
+
+# Prompt for person's name
+person_name = input('Enter the person\'s name: ')
+
+while True:
+    # Capture a frame from the camera
+    ret, frame = cam.read()
+
+    # Check if frame is successfully captured
+    if ret:
+        # Display the frame
+        cv2.imshow(person_name, frame)
+
+        # Handle key press: 'q' to quit, 's' to capture image
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord('q'):
+            break
+        elif key == ord('s'):
+            # Save the captured image with appropriate name
+            cv2.imwrite(f'{person_name}.png', frame)
+            print(f"Image captured and saved as '{person_name}.png'")
+
+    # Handle failed frame capture
+    else:
+        print("Error: Frame capture failed. Please check your camera.")
+
+# Release the webcam resources
+cam.release()
+
+# Close all open windows
+cv2.destroyAllWindows()
+
+print("Exiting program...")
